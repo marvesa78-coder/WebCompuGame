@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CompuGame | Portal y Guía de Estudio (12 niveles)</title>
+  <meta name="description" content="Portal para descargar CompuGame y estudiar los 12 niveles con resúmenes claros y ejemplos interactivos." />
+  <style>
+    :root{
+      --bg: #0e1525;
+      --bg-2: #141e30;
+      --card: rgba(255,255,255,.08);
+      --text: #f6f7fb;
+      --accent: #00c3ff;
+      --accent-2: #ffcc00;
+      --ok: #22c55e;
+      --bad: #ef4444;
+      --muted: #9ca3af;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 16px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family: "Segoe UI", Roboto, Arial, sans-serif; color:var(--text);
+      background: radial-gradient(1200px 700px at 20% -10%, #1f3a8a40, transparent 60%),
+                  radial-gradient(1000px 600px at 120% 10%, #0ea5e960, transparent 60%),
+                  linear-gradient(120deg, var(--bg), var(--bg-2));
+      line-height:1.6;
+    }
+    header{
+      position: sticky; top:0; z-index: 10;
+      backdrop-filter: blur(10px);
+      background: linear-gradient(180deg, rgba(0,0,0,.45), rgba(0,0,0,.25));
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .wrap{max-width:1100px;margin:0 auto;padding:1.25rem 1rem}
+    .topbar{display:flex;align-items:center;gap:1rem;justify-content:space-between}
+    .brand{display:flex;align-items:center;gap:.75rem}
+    .brand h1{font-size:1.5rem;margin:0}
+    .brand .logo{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg, var(--accent), #7c3aed); display:grid;place-items:center;box-shadow:var(--shadow)}
+    .brand .logo span{font-weight:900}
+    nav a{color:var(--text);text-decoration:none;margin:0 .5rem;font-weight:600;opacity:.9}
+    nav a:hover{color:var(--accent)}
+
+    .hero{padding:2.5rem 0}
+    .hero h2{margin:.2rem 0 0;font-size:2rem}
+    .hero p{color:var(--muted);margin:.25rem 0 1rem}
+
+    .grid{display:grid;grid-template-columns: 1fr; gap:1rem}
+    @media(min-width:900px){
+      .grid{grid-template-columns: 280px 1fr}
+    }
+
+    .card{background:var(--card); border:1px solid rgba(255,255,255,.08); border-radius:var(--radius); box-shadow:var(--shadow)}
+    .card-inner{padding:1rem}
+
+    .download{display:flex;flex-direction:column;gap:.75rem}
+    .btn{display:inline-flex;align-items:center;gap:.5rem; padding:.8rem 1rem; border-radius:12px; border:none; cursor:pointer; font-weight:700}
+    .btn.primary{background:var(--accent); color:#001018}
+    .btn.secondary{background:transparent; color:var(--accent); border:1px solid var(--accent)}
+    .btn.ghost{background:transparent; color:var(--text)}
+    .btn:active{transform:translateY(1px)}
+
+    .toc h3{margin:.4rem 0 .6rem}
+    .toc input{width:100%; padding:.6rem .7rem; border-radius:10px; background:rgba(255,255,255,.08); color:var(--text); border:1px solid rgba(255,255,255,.12)}
+    .toc ul{list-style:none; padding:0; margin:.6rem 0 0; max-height:60vh; overflow:auto}
+    .toc li{margin:.15rem 0}
+    .toc a{display:block; padding:.45rem .5rem; text-decoration:none; color:var(--text); border-radius:10px; opacity:.9}
+    .toc a:hover{background:rgba(255,255,255,.08); color:var(--accent-2)}
+
+    .level{scroll-margin-top:100px}
+    .level h3{margin:0 0 .5rem; font-size:1.35rem; color:var(--accent)}
+    .level .subtitle{margin:.2rem 0 1rem; color:var(--accent-2); font-weight:700}
+    .two-col{display:grid; grid-template-columns: 1fr; gap:1rem}
+    @media(min-width:900px){.two-col{grid-template-columns: 1.1fr .9fr}}
+
+    .section{background:rgba(0,0,0,.25); border:1px solid rgba(255,255,255,.07); border-radius:14px; padding:1rem}
+    .section h4{margin:.1rem 0 .5rem}
+    .kbd{display:inline-block; padding:.1rem .45rem; border-radius:6px; background:rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.25)}
+
+    .quiz{margin-top:.5rem; background:rgba(255,255,255,.05); border:1px dashed rgba(255,255,255,.18); border-radius:12px; padding:.75rem}
+    .quiz p{margin:.25rem 0 .5rem}
+    .quiz label{display:block; margin:.35rem 0; cursor:pointer}
+    .quiz input{margin-right:.4rem}
+    .quiz .actions{display:flex; gap:.5rem; flex-wrap:wrap; margin-top:.6rem}
+    .feedback{margin-top:.5rem; font-weight:700}
+    .ok{color:var(--ok)}
+    .bad{color:var(--bad)}
+
+    details{margin:.6rem 0}
+    summary{cursor:pointer; user-select:none}
+
+    pre{background:rgba(0,0,0,.4); border-radius:12px; padding:1rem; overflow:auto}
+    code{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace}
+
+    footer{margin:2rem 0; text-align:center; color:var(--muted)}
+    .small{font-size:.9rem; color:var(--muted)}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap topbar">
+      <div class="brand">
+        <div class="logo"><span>CG</span></div>
+        <h1>CompuGame</h1>
+      </div>
+      <nav>
+        <a href="#descarga">Descargar</a>
+        <a href="#guia">Guía (12 niveles)</a>
+        <a href="#ayuda">Ayuda</a>
+        <button class="btn ghost" id="imprimir">🖨️ Imprimir / Guardar PDF</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero card">
+      <div class="card-inner">
+        <h2>Portal del Videojuego + Guía de Estudio</h2>
+        <p>Estudia los conceptos clave de computación y ponlos a prueba con mini‑quizzes antes de jugar. Cada nivel explica <b>qué es</b>, <b>cómo funciona</b> y <b>cómo usarlo</b> con ejemplos.</p>
+      </div>
+    </section>
+
+    <div class="grid">
+      <!-- Sidebar: descarga + índice -->
+      <aside>
+        <section id="descarga" class="card">
+          <div class="card-inner download">
+            <h3>🎮 Descargar CompuGame</h3>
+            <p class="small">Instalador para Windows (.exe)</p>
+            <a class="btn primary" href="videojuego/CompuGame_Installer.exe" download>⬇ Descargar CompuGame</a>
+            <a class="btn secondary" href="videojuego/guia de estudios.pdf">📘 Ir a la Guía</a>
+          </div>
+        </section>
+        <section class="card toc">
+          <div class="card-inner">
+            <h3>📚 Índice de niveles</h3>
+            <input id="filter" placeholder="Filtrar temas (ej. redes, binario)" aria-label="Filtrar niveles" />
+            <ul id="toc">
+              <li><a href="#lvl1">1. Conceptos básicos de la computadora</a></li>
+              <li><a href="#lvl2">2. Sistema operativo (Windows/Linux/macOS)</a></li>
+              <li><a href="#lvl3">3. Archivos, carpetas y extensiones</a></li>
+              <li><a href="#lvl4">4. Internet, web y navegadores</a></li>
+              <li><a href="#lvl5">5. Redes y conectividad (IP, Wi‑Fi, DNS)</a></li>
+              <li><a href="#lvl6">6. Seguridad digital (contraseñas, 2FA, malware)</a></li>
+              <li><a href="#lvl7">7. Ofimática: Documentos</a></li>
+              <li><a href="#lvl8">8. Ofimática: Hojas de cálculo</a></li>
+              <li><a href="#lvl9">9. Ofimática: Presentaciones</a></li>
+              <li><a href="#lvl10">10. Algoritmos y programación (lógica)</a></li>
+              <li><a href="#lvl11">11. Lógica booleana y sistemas numéricos (binario)</a></li>
+              <li><a href="#lvl12">12. Datos y bases de datos</a></li>
+            </ul>
+          </div>
+        </section>
+      </aside>
+
+      <!-- Contenido principal: Guía -->
+      <section id="guia">
+        <!-- NIVEL 1 -->
+        <article id="lvl1" class="card level">
+          <div class="card-inner">
+            <h3>📌 Nivel 1: Conceptos básicos de la computadora</h3>
+            <p class="subtitle">Hardware vs. software · Periféricos de entrada/salida · Almacenamiento · Encendido y apagado seguro</p>
+            <div class="two-col">
+              <div class="section">
+                <h4>¿Qué es cada cosa?</h4>
+                <p><b>Hardware</b> es la parte física (teclado, monitor, CPU, disco). <b>Software</b> son los programas (sistema operativo y aplicaciones) que le dicen al hardware qué hacer.</p>
+                <p><b>Periféricos de entrada</b> (teclado, ratón, micrófono) introducen datos. <b>Periféricos de salida</b> (monitor, impresora, bocinas) muestran o emiten resultados. Algunos dispositivos son <b>mixtos</b> (pantalla táctil).</p>
+                <p><b>Almacenamiento</b>: temporal (<i>RAM</i>) y permanente (disco HDD/SSD, USB). La RAM es rápida pero se borra al apagar; el SSD conserva datos.</p>
+                <details><summary>Cómo funciona el encendido</summary>
+                  <p>Al presionar el botón, la placa base alimenta los componentes y el <b>firmware</b> (BIOS/UEFI) realiza una <i>autoprueba</i> (POST). Luego busca un dispositivo con sistema (disco/USB) y lo inicia cargando el <b>bootloader</b> y el sistema operativo.</p>
+                </details>
+              </div>
+              <div class="section">
+                <h4>Ejemplos y práctica</h4>
+                <div class="quiz" data-answer="a">
+                  <p><b>1)</b> ¿Cuál <u>no</u> es periférico de <b>entrada</b>?</p>
+                  <label><input type="radio" name="l1q1" value="a"> Impresora</label>
+                  <label><input type="radio" name="l1q1" value="b"> Teclado</label>
+                  <label><input type="radio" name="l1q1" value="c"> Escáner</label>
+                  <div class="actions"><button class="btn secondary check">Comprobar</button><button class="btn ghost show">Mostrar respuesta</button></div>
+                  <div class="feedback"></div>
+                </div>
+                <div class="quiz" data-answer="c">
+                  <p><b>2)</b> La memoria que <i>se borra</i> al apagar es:</p>
+                  <label><input type="radio" name="l1q2" value="a"> SSD</label>
+                  <label><input type="radio" name="l1q2" value="b"> Disco duro</label>
+                  <label><input type="radio" name="l1q2" value="c"> RAM</label>
+                  <div class="actions"><button class="btn secondary check">Comprobar</button><button class="btn ghost show">Mostrar respuesta</button></div>
+                  <div class="feedback"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- NIVEL 2 -->
+        <article id="lvl2" class="card level">
+          <div class="card-inner">
+            <h3>🖥️ Nivel 2: Sistema operativo (Windows / Linux / macOS)</h3>
+            <p class="subtitle">Qué hace el SO · Escritorio, ventanas, procesos · Administración básica</p>
+            <div class="two-col">
+              <div class="section">
+                <h4>Qué es y cómo funciona</h4>
+                <p>El <b>sistema operativo</b> (SO) coordina hardware y aplicaciones: administra memoria, procesos, archivos y dispositivos. Proporciona una <b>interfaz</b> (gráfica o de línea de comandos) para que el usuario interactúe.</p>
+                <details><summary>Procesos y administración</summary>
+                  <p>Un <b>proceso</b> es un programa en ejecución. El SO asigna tiempo de CPU y memoria; si algo "se cuelga", se puede <b>finalizar</b> desde el administrador de tareas/monitor de actividad.</p>
+                </details>
+                <details><summary>Instalación y actualizaciones</summary>
+                  <p>Los SO reciben <b>updates</b> que corrigen fallos y mejoran seguridad. Mantenerlos al día reduce riesgos.</p>
+                </details>
+              </div>
+              <div class="section">
+                <h4>Ejemplos y práctica</h4>
+                <p><span class="kbd">Ctrl</span> + <span class="kbd">Shift</span> + <span class="kbd">Esc</span> abre el Administrador de tareas (Windows).</p>
+                <div class="quiz" data-answer="b">
+                  <p><b>1)</b> ¿Qué <b>no</b> hace el sistema operativo?</p>
+                  <label><input type="radio" name="l2q1" value="a"> Administrar memoria</label>
+                  <label><input type="radio" name="l2q1" value="b"> Imprimir por sí mismo documentos</label>
+                  <label><input type="radio" name="l2q1" value="c"> Controlar dispositivos</label>
+                  <div class="actions"><button class="btn secondary check">Comprobar</button><button class="btn ghost show">Mostrar respuesta</button></div>
+                  <div class="feedback"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- NIVEL 3 -->
+        <article id="lvl3" class="card level">
+          <div class="card-inner">
+            <h3>🗂️ Nivel 3: Archivos, carpetas y extensiones</h3>
+            <p class="subtitle">Rutas · Tipos de archivo · Guardar/abrir · Compresión y copias de seguridad</p>
+            <div class="two-col">
+              <div class="section">
+                <h4>Conceptos clave</h4>
+                <p>Un <b>archivo</b> es un conjunto de datos con <b>nombre</b> y <b>extensión</b> (p. ej., <code>reporte.docx</code>). Las <b>carpetas</b> organizan archivos. La <b>ruta</b> indica la ubicación (p. ej., <code>C:/Usuarios/Ana/Documentos</code>).</p>
+                <details><summary>Cómo funcionan las extensiones</summary>
+                  <p>La extensión (<code>.jpg</code>, <code>.pdf</code>, <code>.exe</code>) le dice al SO qué programa abrir. Cambiarla no convierte el formato: se debe <b>exportar</b> o <b>guardar como</b>.</p>
+                </details>
+                <details><summary>Compresión y copias</summary>
+                  <p>Comprimir (<code>.zip</code>) reduce tamaño para compartir. Una <b>copia de seguridad</b> (backup) protege contra pérdidas.</p>
+                </details>
+              </div>
+              <div class="section">
+                <h4>Práctica</h4>
+                <div class="quiz" data-answer="a">
+                  <p><b>1)</b> ¿Cuál extensión suele ser de <b>imagen</b>?</p>
+                  <label><input type="radio" name="l3q1" value="a"> .png</label>
+                  <label><input type="radio" name="l3q1" value="b"> .xls</label>
+                  <label><input type="radio" name="l3q1" value="c"> .pdf</label>
+                  <div class="actions"><button class="btn secondary check">Comprobar</button><button class="btn ghost show">Mostrar respuesta</button></div>
+                  <div class="feedback"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- NIVEL 4 -->
+        <article id="lvl4" class="card level">
+          <div class="card-inner">
+            <h3>🌐 Nivel 4: Internet, web y navegadores</h3>
+            <p class="subtitle">URL · HTTP/HTTPS · Buscadores · Buenas prácticas de búsqueda</p>
+            <div class="two-col">
+              <div class="section">
+                <h4>Cómo funciona la web</h4>
+                <p><b>Internet</b> es la red global; la <b>web</b> es un servicio de páginas accesibles con un <b>navegador</b>. Una <b>URL</b> identifica recursos (p. ej., <code>https://sitio.com/pagina</code>).</p>
+                <p><b>HTTP/HTTPS</b> es el protocolo de transferencia; <b>HTTPS</b> cifra la comunicación para seguridad.</p>
+                <details><summary>Buscar mejor</summary>
+                  <p>Usa comillas para frases exactas, operadores como <code>site:</code> y <code>filetype:</code> para filtrar resultados.</p>
+                </details>
+              </div>
+              <div class="section">
+                <h4>Práctica</h4>
+                <div class="quiz" data-answer="c">
+                  <p><b>1)</b> ¿Qué parte de <code>https://escuela.mx/guia.pdf</code> es el <b>dominio</b>?</p>
+                  <label><input type="radio" name="l4q1" value="a"> https</label>
+                  <label><input type="radio" name="l4q1" value="b"> /guia.pdf</label>
+                  <label><input type="radio" name="l4q1" value="c"> escuela.mx</label>
+                  <div class="actions"><button class="btn secondary check">Comprobar</button><button class="btn ghost show">Mostrar respuesta</button></div>
+                  <div class="feedback"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- NIVEL 5 -->
+        <article id="lvl5" class="card level">
+          <div class="card-inner">
+            <h3>📡 Nivel 5: Redes y conectividad (IP, Wi‑Fi, DNS)</h3>
+            <p class="subtitle">Qué es una red · Router · Direcciones IP · DNS · Velocidad y latencia</p>
+            <div class="two-col">
+              <div class="section">
+                <h4>Cómo viajan los datos</h4>
+                <p>Una <b>red</b> conecta dispositivos para compartir información. El <b>router</b> dirige paquetes entre tu red y otras redes. Cada equipo tiene una <b>IP</b> (dirección) para identificarlo.</p>
+                <p><b>DNS</b> traduce nombres como <code>escuela.mx</code> a direcciones IP. <b>Wi‑Fi</b> usa ondas de radio para transmitir datos sin cables.</p>
+                <details><summary>Velocidad vs. latencia</summary>
+                  <p><b>Velocidad</b> (Mbps) es cuánta información por segundo; <b>latencia</b> es el tiempo de ida y vuelta (ms). Juegos requieren baja latencia.</p>
+                </details>
+              </div>
+              <div class="section">
+                <h4>Práctica</h4>
+                <div class="quiz" data-answer="b">
+                  <p><b>1)</b> El servicio que convierte dominios en IP se llama:</p>
+                  <label><input type="radio" name="l5q1" value="a"> DHCP</label>
+                  <label><input type="radio" name="l5q1" value="b"> DNS</label>
+                  <label><input type="radio" name="l5q1" value="c"> FTP</label>
+                  <div class="actions"><button class="btn secondary check">Comprobar</button><button class="btn ghost show">Mostrar respuesta</button></div>
+                  <div class="feedback"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- NIVEL 6 -->
+        <article id="lvl6" class="card level">
+          <div class="card-inner">
+            <h3>🔐 Nivel 6: Seguridad digital (contraseñas, 2FA, malware)</h3>
+            <p class="subtitle">Buenas prácticas · Phishing · Actualizaciones · Copias de seguridad</p>
+            <div class="two-col">
+              <div class="section">
+                <h4>Protege tu equipo</h4>
+                <p>Usa <b>contraseñas largas</b> y únicas, activa <b>doble factor</b> (2FA) y desconfía de enlaces sospechosos (<b>phishing</b>). Mantén el sistema y programas <b>actualizados</b>.</p>
+                <details><summary>¿Qué es el malware?</summary>
+                  <p>Software malicioso (virus, troyanos, ransomware) que daña o roba datos. Un <b>antivirus</b> ayuda a detectarlo; la mejor defensa es la prevención.</p>
+                </details>
+              </div>
+              <div class="section">
+                <h4>Práctica</h4>
+                <div class="quiz" data-answer="a">
+                  <p><b>1)</b> La opción más segura es:</p>
+                  <label><input type="radio" name="l6q1" value="a"> Activar 2FA en tus cuentas</label>
+                  <label><input type="radio" name="l6q1" value="b"> Usar la misma contraseña en todo</label>
+                  <label><input type="radio" name="l6q1" value="c"> Ignorar actualizaciones</label>
+                  <div class="actions"><button class="btn secondary check">Comprobar</button><button class="btn ghost show">Mostrar respuesta</button></div>
+                  <div class="feedback"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- NIVEL 7 -->
+        <article id="lvl7" class="card level">
+          <div class="card-inner">
+            <h3>📝 Nivel 7: Ofimática – Documentos</h3>
+            <p class="subtitle">Formato de texto · Estilos y encabezados · Tablas · Exportar a PDF</p>
+            <div class="two-col">
+              <div class="section">
+                <h4>Cómo se da formato</h4>
+                <p>Usa <b>estilos</b> para títulos y subtítulos; así generas índices automáticos. Las <b>tablas</b> organizan datos. Revisa <b>márgenes</b> y <b>ortografía</b> antes de exportar a PDF.</p>
+                <details><summary>Flujo recomendado</summary>
+                  <ol>
+                    <li>Planear estructura (títulos H1/H2/H3).</li>
+                    <li>Escribir contenido y aplicar estilos, no formato manual.</li>
+                    <li>Insertar tablas/figuras con títulos.</li>
+                    <li>Exportar a PDF para compartir.</li>
+                  </ol>
+                </details>
+              </div>
+              <div class="section">
+                <h4>Práctica</h4>
+                <div class="quiz" data-answer="c">
+                  <p><b>1)</b> ¿Qué ventaja tienen los <b>estilos</b>?</p>
+                  <label><input type="radio" name="l7q1" value="a"> Sirven solo para cambiar color</label>
+                  <label><input type="radio" name="l7q1" value="b"> No afectan el índice</label>
+                  <label><input type="radio" name="l7q1" value="c"> Permiten crear índice automático</label>
+                  <div class="actions"><button class="btn secondary check">Comprobar</button><button class="btn ghost show">Mostrar respuesta</button></div>
+                  <div class="feedback"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- NIVEL 8 -->
+        <article id="lvl8" class="card level">
+          <div class="card-inner">
+            <h3>📊 Nivel 8: Ofimática – Hojas de cálculo</h3>
+            <p class="subtitle">Celdas y rangos · Fórmulas · Funciones SUMA/PROMEDIO · Referencias absolutas/relativas · Gráficas</p>
+            <div class="two-col">
+              <div class="section">
+                <h4>Cómo calculan</h4>
+                <p>Una hoja tiene <b>celdas</b> (A1, B2). Las <b>fórmulas</b> empiezan con <code>=</code> (ej.: <code>=A1+B1</code>). <b>Funciones</b> prehechas como <code>SUMA</code> o <code>PROMEDIO</code> aceleran cálculos.</p>
+                <details><summary>Referencias</summary>
+                  <p><b>Relativa</b> cambia al copiar (<code>A1</code>); <b>absoluta</b> se fija con <code>$</code> (<code>$A$1</code>).</p>
+                </details>
+                <pre><code>Ejemplo: Total = Precio * Cantidad
+=A2*B2
+Promedio = PROMEDIO(C2:C10)</code></pre>
+              </div>
+              <div class="section">
+                <h4>Práctica</h4>
+                <div class="quiz" data-answer="b">
+                  <p><b>1)</b> ¿Cuál referencia <b>no cambia</b> al copiar?</p>
+                  <label><input type="radio" name="l8q1" value="a"> C3</label>
+                  <label><input type="radio" name="l8q1" value="b"> $C$3</label>
+                  <label><input type="radio" name="l8q1" value="c"> C$3</label>
+                  <div class="actions"><button class="btn secondary check">Comprobar</button><button class="btn ghost show">Mostrar respuesta</button></div>
+                  <div class="feedback"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- NIVEL 9 -->
+        <article id="lvl9" class="card level">
+          <div class="card-inner">
+            <h3>🖼️ Nivel 9: Ofimática – Presentaciones</h3>
+            <p class="subtitle">Estructura (inicio, desarrollo, cierre) · Diseño simple · Buenas prácticas al exponer</p>
+            <div class="two-col">
+              <div class="section">
+                <h4>Diseño que ayuda</h4>
+                <p>Usa una idea por diapositiva, <b>tipografías legibles</b> y contraste alto. Imágenes apoyan, no sustituyen tu explicación. Menos es más.</p>
+                <details><summary>Hablar en público</summary>
+                  <p>Practica con cronómetro, mira a tu audiencia y respira. Usa atajos (<span class="kbd">B</span> para poner la pantalla negra y recuperar atención).</p>
+                </details>
+              </div>
+              <div class="section">
+                <h4>Práctica</h4>
+                <div class="quiz" data-answer="a">
+                  <p><b>1)</b> ¿Qué <b>no</b> es una buena práctica?</p>
+                  <label><input type="radio" name="l9q1" value="a"> Llenar de texto cada diapositiva</label>
+                  <label><input type="radio" name="l9q1" value="b"> Un punto clave por slide</label>
+                  <label><input type="radio" name="l9q1" value="c"> Buen contraste de colores</label>
+                  <div class="actions"><button class="btn secondary check">Comprobar</button><button class="btn ghost show">Mostrar respuesta</button></div>
+                  <div class="feedback"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- NIVEL 10 -->
+        <article id="lvl10" class="card level">
+          <div class="card-inner">
+            <h3>💡 Nivel 10: Algoritmos y programación (lógica)</h3>
+            <p class="subtitle">Secuencias · Condiciones · Bucles · Pseudocódigo y diagramas de flujo</p>
+            <div class="two-col">
+              <div class="section">
+                <h4>De la idea al paso a paso</h4>
+                <p>Un <b>algoritmo</b> es una lista de pasos finita para resolver un problema. En programación, esos pasos se escriben en un lenguaje.</p>
+                <details><summary>Condiciones y bucles</summary>
+                  <p>Una <b>condición</b> decide entre caminos (<i>si</i> llueve, usa paraguas). Un <b>bucle</b> repite pasos hasta cumplir una condición (contar del 1 al 10).</p>
+                </details>
+                <pre><code>// Pseudocódigo: sumar 1..10
+suma ← 0
+para i de 1 a 10 hacer
+  suma ← suma + i
+fin para
+mostrar suma</code></pre>
+              </div>
+              <div class="section">
+                <h4>Práctica</h4>
+                <div class="quiz" data-answer="c">
+                  <p><b>1)</b> ¿Qué estructura <b>repite</b> instrucciones?</p>
+                  <label><input type="radio" name="l10q1" value="a"> Condicional</label>
+                  <label><input type="radio" name="l10q1" value="b"> Variable</label>
+                  <label><input type="radio" name="l10q1" value="c"> Bucle</label>
+                  <div class="actions"><button class="btn secondary check">Comprobar</button><button class="btn ghost show">Mostrar respuesta</button></div>
+                  <div class="feedback"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- NIVEL 11 -->
+        <article id="lvl11" class="card level">
+          <div class="card-inner">
+            <h3>🔢 Nivel 11: Lógica booleana y sistemas numéricos (binario)</h3>
+            <p class="subtitle">Bits y bytes · Convertir decimal ↔ binario · AND/OR/NOT</p>
+            <div class="two-col">
+              <div class="section">
+                <h4>Cómo cuentan las computadoras</h4>
+                <p>Las computadoras usan <b>binario</b>: solo 0 y 1. Un <b>bit</b> es un dígito binario; 8 bits son un <b>byte</b>. La <b>lógica booleana</b> combina valores con operaciones AND, OR, NOT.</p>
+                <details><summary>Conversión rápida</summary>
+                  <p>Para convertir 13 a binario: 13 = 8 + 4 + 1 → <code>1101</code>. Al revés, suma potencias de 2 donde hay 1.</p>
+                </details>
+                <pre><code>Tabla verdad AND
+A B | A∧B
+0 0 | 0
+0 1 | 0
+1 0 | 0
+1 1 | 1</code></pre>
+              </div>
+              <div class="section">
+                <h4>Práctica</h4>
+                <div class="quiz" data-answer="b">
+                  <p><b>1)</b> El número binario <code>1010</code> equivale a decimal:</p>
+                  <label><input type="radio" name="l11q1" value="a"> 8</label>
+                  <label><input type="radio" name="l11q1" value="b"> 10</label>
+                  <label><input type="radio" name="l11q1" value="c"> 12</label>
+                  <div class="actions"><button class="btn secondary check">Comprobar</button><button class="btn ghost show">Mostrar respuesta</button></div>
+                  <div class="feedback"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- NIVEL 12 -->
+        <article id="lvl12" class="card level">
+          <div class="card-inner">
+            <h3>🗄️ Nivel 12: Datos y bases de datos</h3>
+            <p class="subtitle">Tablas, registros y campos · Claves · Consultas básicas</p>
+            <div class="two-col">
+              <div class="section">
+                <h4>De datos a información</h4>
+                <p>Una <b>base de datos</b> organiza información en <b>tablas</b> (filas = <i>registros</i>, columnas = <i>campos</i>). Una <b>clave primaria</b> identifica de forma única cada registro.</p>
+                <details><summary>Relaciones</summary>
+                  <p>Las tablas se relacionan (uno‑a‑muchos) mediante <b>claves foráneas</b>. Esto evita duplicidad y mantiene consistencia.</p>
+                </details>
+                <pre><code>Consulta SQL de ejemplo:
+SELECT nombre, calificacion
+FROM alumnos
+WHERE calificacion &gt;= 8
+ORDER BY calificacion DESC;</code></pre>
+              </div>
+              <div class="section">
+                <h4>Práctica</h4>
+                <div class="quiz" data-answer="a">
+                  <p><b>1)</b> ¿Qué identifica <b>únicamente</b> un registro?</p>
+                  <label><input type="radio" name="l12q1" value="a"> Clave primaria</label>
+                  <label><input type="radio" name="l12q1" value="b"> Campo texto</label>
+                  <label><input type="radio" name="l12q1" value="c"> Orden alfabético</label>
+                  <div class="actions"><button class="btn secondary check">Comprobar</button><button class="btn ghost show">Mostrar respuesta</button></div>
+                  <div class="feedback"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- AYUDA / FAQ -->
+        <article id="ayuda" class="card level">
+          <div class="card-inner">
+            <h3>❓ Ayuda rápida</h3>
+            <div class="two-col">
+              <div class="section">
+                <h4>¿Cómo imprimo o guardo en PDF?</h4>
+                <p>Haz clic en <b>🖨️ Imprimir / Guardar PDF</b> arriba o usa <span class="kbd">Ctrl</span> + <span class="kbd">P</span> (Windows) y selecciona "Guardar como PDF".</p>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+    </div>
+
+    <footer>
+      © 2025 CompuGame · Guía de Estudio — Hecha para reforzar antes de jugar 🎮
+    </footer>
+  </main>
+
+  <script>
+    // Filtrar niveles en el índice
+    const filter = document.getElementById('filter');
+    const toc = document.getElementById('toc');
+    filter?.addEventListener('input', (e)=>{
+      const q = e.target.value.toLowerCase();
+      toc.querySelectorAll('li').forEach(li=>{
+        const txt = li.textContent.toLowerCase();
+        li.style.display = txt.includes(q)?'':'none';
+      })
+    });
+
+    // Botón imprimir
+    document.getElementById('imprimir')?.addEventListener('click', ()=> window.print());
+
+    // Lógica de quizzes (respuesta única a/b/c)
+    document.querySelectorAll('.quiz').forEach((quiz, idx)=>{
+      const answer = quiz.getAttribute('data-answer');
+      const btnCheck = quiz.querySelector('.check');
+      const btnShow = quiz.querySelector('.show');
+      const fb = quiz.querySelector('.feedback');
+      const inputs = quiz.querySelectorAll('input[type="radio"]');
+
+      btnCheck?.addEventListener('click', ()=>{
+        let selected = null;
+        inputs.forEach(i=>{ if(i.checked) selected = i.value; });
+        if(!selected){ fb.textContent = 'Selecciona una opción.'; fb.className='feedback bad'; return; }
+        if(selected === answer){ fb.textContent = '¡Correcto! 🎉'; fb.className='feedback ok'; }
+        else { fb.textContent = 'Incorrecto, intenta otra vez.'; fb.className='feedback bad'; }
+      });
+
+      btnShow?.addEventListener('click', ()=>{
+        fb.textContent = `Respuesta: ${answer.toUpperCase()}`;
+        fb.className='feedback ok';
+        inputs.forEach(i=> i.checked = (i.value===answer));
+      });
+    });
+  </script>
+</body>
+</html>
